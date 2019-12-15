@@ -416,6 +416,32 @@ func TestSplit(t *testing.T) {
 	}
 }
 
+func TestSplit2(t *testing.T) {
+	t.Parallel()
+	c := qt.New(t)
+
+	for _, test := range []struct {
+		v1     interface{}
+		v2     string
+		v3     interface{}
+		v4     interface{}
+		expect interface{}
+	}{
+		{"a, b, c, d, e, f, g, h, i", ", ", 3, 5, "c, d, e"},
+	} {
+
+		result, err := ns.Diminish(test.v1, test.v2, test.v3, test.v4)
+
+		if b, ok := test.expect.(bool); ok && !b {
+			c.Assert(err, qt.Not(qt.IsNil))
+			continue
+		}
+
+		c.Assert(err, qt.IsNil)
+		c.Assert(result, qt.DeepEquals, test.expect)
+	}
+}
+
 func TestSubstr(t *testing.T) {
 	t.Parallel()
 	c := qt.New(t)
