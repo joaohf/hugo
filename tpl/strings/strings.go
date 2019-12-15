@@ -245,6 +245,43 @@ func (ns *Namespace) Split(a interface{}, delimiter string) ([]string, error) {
 	return _strings.Split(aStr, delimiter), nil
 }
 
+func (ns *Namespace) Diminish(a interface{}, delimiter string, startEnd ...interface{}) (string, error) {
+
+	aStr, err := cast.ToStringE(a)
+	if err != nil {
+		return "", err
+	}
+
+    var argStart, argEnd int
+
+    argNum := len(startEnd)
+
+    if argNum > 0 {
+	    if argStart, err = cast.ToIntE(startEnd[0]); err != nil {
+		    return "", errors.New("start argument must be integer")
+        }
+    }
+	if argNum > 1 {
+		if argEnd, err = cast.ToIntE(startEnd[1]); err != nil {
+			return "", errors.New("end argument must be integer")
+		}
+	}
+
+	if argNum > 2 {
+		return "", errors.New("too many arguments")
+	}
+
+    s := make([]string, 0)
+
+	v := _strings.Split(aStr, delimiter)
+
+	for i := argStart - 1; i < argEnd; i++ {
+		s = append(s, v[i])
+	}
+
+    return _strings.Join(s, delimiter), nil
+}
+
 // Substr extracts parts of a string, beginning at the character at the specified
 // position, and returns the specified number of characters.
 //

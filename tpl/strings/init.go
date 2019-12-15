@@ -102,6 +102,11 @@ func init() {
 			[][2]string{},
 		)
 
+		ns.AddMethodMapping(ctx.Diminish,
+			[]string{"diminish"},
+			[][2]string{},
+		)
+
 		ns.AddMethodMapping(ctx.Substr,
 			[]string{"substr"},
 			[][2]string{
